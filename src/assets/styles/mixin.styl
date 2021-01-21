@@ -1,0 +1,50 @@
+// 公用的全局工具样式
+$main-blue-color = #3e82fe
+$main-red-color = #bf0152
+$main-opacity-color = rgba(62, 130, 254, 0.2)
+$font-default-color = #37394C
+$box-shadow-color = #dae2ed
+$up-text-color = #d54e57
+$down-text-color = #2ebd41
+// 公用的最小宽度
+$min-width = 1200px
+// 公用的居中模板
+layout-content()
+  width $min-width
+  margin 0 auto
+// 上下左右居中
+position-center()
+  position absolute
+  left 0
+  right 0
+  top 0
+  bottom 0
+  margin auto
+// 清除浮动
+clearfix()
+  // IE6/7
+  zoom 1
+  &:after
+    content ' '
+    display block
+    height 0
+    clear both
+transition()
+  -webkit-transition arguments
+  -moz-transition arguments
+  transition arguments
+  -webkit-transform translateZ(0)
+  -moz-transform translateZ(0)
+  transform translateZ(0)
+// 文本单行溢出隐藏
+textoneline()
+  overflow hidden
+  white-space nowrap
+  text-overflow ellipsis
+  /* 文本多行溢出隐藏  -webkit-line-clamp: 2; 溢出行数 */
+textmoreline()
+  display -webkit-box
+  -webkit-box-orient vertical
+  overflow hidden
+  text-overflow ellipsis
+  -webkit-line-clamp 2 @-webkit-line-clamp

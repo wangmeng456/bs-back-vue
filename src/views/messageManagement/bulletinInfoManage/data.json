@@ -1,0 +1,32 @@
+{
+  "total": 2,
+  "rows": [{
+    "searchValue": null,
+    "createBy": "admin",
+    "createTime": "2020-07-05 16:41:50",
+    "updateBy": null,
+    "updateTime": null,
+    "remark": null,
+    "dataScope": null,
+    "noticeId": 1,
+    "noticeTitle": "4升5G战狼营销活动细则",
+    "noticeType": "1",
+    "noticeContent": "<p>关于4升5G战狼营销活动细则，各省开展4升5G战狼营销，以产业园区、商务楼宇、大型企业...</p>",
+    "status": "0"
+  }, {
+    "searchValue": null,
+    "createBy": "admin",
+    "createTime": "2020-07-05 16:42:24",
+    "updateBy": null,
+    "updateTime": null,
+    "remark": null,
+    "dataScope": null,
+    "noticeId": 2,
+    "noticeTitle": "新一批蓝海客户派发通知",
+    "noticeType": "1",
+    "noticeContent": null,
+    "status": "0"
+  }],
+  "code": 200,
+  "msg": 0
+}

@@ -1,0 +1,215 @@
+{
+    "1": [{
+        "survey": [{
+            "val1": "icon-grid.png",
+            "val2": "3",
+            "val3": "网格数量"
+        },{
+            "val1": "icon-residentialQuarters.png",
+            "val2": "17",
+            "val3": "小区数量"
+        },{
+            "val1": "icon-building.png",
+            "val2": "268",
+            "val3": "楼宇数量"
+        }],
+        "基本信息": [{
+            "name": "基本信息",
+            "val1": "混合包区",
+            "val2": "辽宁省沈阳市浑南区金卡路12号",
+            "val3": "沈阳分公司-浑南支局-商客xxxxx-张三xxxxx"
+        }],
+        "市场空间信息": [{
+            "name": "市场空间信息",
+            "status": "true",
+            "val1": "133",
+            "val2": "12",
+            "val3": "3087",
+            "val4": "3087"
+        }],
+        "本网业务信息": [{
+            "name": "本网业务信息",
+            "val1": "2356",
+            "val2": "1246",
+            "val3": "3087",
+            "val4": "32.5%"
+        }],
+        "网格列表": [{
+            "gridName": "世纪花园网格",
+            "gridType": "城市网格",
+            "gridHouse": "27",
+            "gridMerchant": "234",
+            "gridAddress": "菜市口大街123号"
+        },
+        {
+            "gridName": "世纪花园网格",
+            "gridType": "城市网格",
+            "gridHouse": "27",
+            "gridMerchant": "234",
+            "gridAddress": "菜市口大街123号"
+        },{
+            "gridName": "世纪花园网格",
+            "gridType": "城市网格",
+            "gridHouse": "27",
+            "gridMerchant": "234",
+            "gridAddress": "菜市口大街123号"
+        },{
+            "gridName": "世纪花园网格",
+            "gridType": "城市网格",
+            "gridHouse": "27",
+            "gridMerchant": "234",
+            "gridAddress": "菜市口大街123号"
+        }]
+    }],
+    "2": [{
+        "survey": [{
+            "val1": "17",
+            "val2": "268"
+        }],
+        "基本信息": [{
+            "name": "基本信息",
+            "val1": "混合包区",
+            "val2": "辽宁省沈阳市浑南区金卡路12号",
+            "val3": "沈阳分公司-浑南支局-商客xxxxx-张三xxxxx"
+        }],
+        "市场空间信息": [{
+            "name": "市场空间信息",
+            "status": "true",
+            "val1": "133",
+            "val2": "12",
+            "val3": "3087",
+            "val4": "3087"
+        }],
+        "本网业务信息": [{
+            "name": "本网业务信息",
+            "val1": "2356",
+            "val2": "1246",
+            "val3": "3087",
+            "val4": "32.5%"
+        }],
+        "网格列表": [{
+            "gridName": "世纪花园网格",
+            "gridType": "城市网格",
+            "gridHouse": "27",
+            "gridMerchant": "234",
+            "gridAddress": "菜市口大街123号"
+        },
+        {
+            "gridName": "世纪花园网格",
+            "gridType": "城市网格",
+            "gridHouse": "27",
+            "gridMerchant": "234",
+            "gridAddress": "菜市口大街123号"
+        },{
+            "gridName": "世纪花园网格",
+            "gridType": "城市网格",
+            "gridHouse": "27",
+            "gridMerchant": "234",
+            "gridAddress": "菜市口大街123号"
+        },{
+            "gridName": "世纪花园网格",
+            "gridType": "城市网格",
+            "gridHouse": "27",
+            "gridMerchant": "234",
+            "gridAddress": "菜市口大街123号"
+        }]
+    }],
+    "3": [{
+        "基本信息": [{
+            "name": "基本信息",
+            "val1": "混合包区",
+            "val2": "辽宁省沈阳市浑南区金卡路12号",
+            "val3": "沈阳分公司-浑南支局-商客xxxxx-张三xxxxx"
+        }],
+        "市场空间信息": [{
+            "name": "市场空间信息",
+            "status": "true",
+            "val1": "133",
+            "val2": "12",
+            "val3": "3087",
+            "val4": "3087"
+        }],
+        "本网业务信息": [{
+            "name": "本网业务信息",
+            "val1": "2356",
+            "val2": "1246",
+            "val3": "3087",
+            "val4": "32.5%"
+        }],
+        "网格列表": [{
+            "gridName": "世纪花园网格",
+            "gridType": "城市网格",
+            "gridHouse": "27",
+            "gridMerchant": "234",
+            "gridAddress": "菜市口大街123号"
+        },
+        {
+            "gridName": "世纪花园网格",
+            "gridType": "城市网格",
+            "gridHouse": "27",
+            "gridMerchant": "234",
+            "gridAddress": "菜市口大街123号"
+        },{
+            "gridName": "世纪花园网格",
+            "gridType": "城市网格",
+            "gridHouse": "27",
+            "gridMerchant": "234",
+            "gridAddress": "菜市口大街123号"
+        },{
+            "gridName": "世纪花园网格",
+            "gridType": "城市网格",
+            "gridHouse": "27",
+            "gridMerchant": "234",
+            "gridAddress": "菜市口大街123号"
+        }]
+    }],
+    "4": [{
+        "基本信息": [{
+            "name": "基本信息",
+            "val1": "混合包区",
+            "val2": "辽宁省沈阳市浑南区金卡路12号",
+            "val3": "沈阳分公司-浑南支局-商客xxxxx-张三xxxxx"
+        }],
+        "市场空间信息": [{
+            "name": "市场空间信息",
+            "status": "true",
+            "val1": "133",
+            "val2": "12",
+            "val3": "3087",
+            "val4": "3087"
+        }],
+        "本网业务信息": [{
+            "name": "本网业务信息",
+            "val1": "2356",
+            "val2": "1246",
+            "val3": "3087",
+            "val4": "32.5%"
+        }],
+        "网格列表": [{
+            "gridName": "世纪花园网格",
+            "gridType": "城市网格",
+            "gridHouse": "27",
+            "gridMerchant": "234",
+            "gridAddress": "菜市口大街123号"
+        },
+        {
+            "gridName": "世纪花园网格",
+            "gridType": "城市网格",
+            "gridHouse": "27",
+            "gridMerchant": "234",
+            "gridAddress": "菜市口大街123号"
+        },{
+            "gridName": "世纪花园网格",
+            "gridType": "城市网格",
+            "gridHouse": "27",
+            "gridMerchant": "234",
+            "gridAddress": "菜市口大街123号"
+        },{
+            "gridName": "世纪花园网格",
+            "gridType": "城市网格",
+            "gridHouse": "27",
+            "gridMerchant": "234",
+            "gridAddress": "菜市口大街123号"
+        }]
+    }]
+}

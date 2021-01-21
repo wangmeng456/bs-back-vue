@@ -1,0 +1,41 @@
+{
+  "msg": "操作成功",
+  "code": 200,
+  "data": [{
+    "searchValue": null,
+    "createBy": "admin",
+    "createTime": "2018-03-16 03:33:00",
+    "updateBy": null,
+    "updateTime": null,
+    "remark": "通知",
+    "dataScope": null,
+    "dictCode": 12,
+    "dictSort": 1,
+    "dictLabel": "通知",
+    "dictValue": "1",
+    "dictType": "sys_notice_type",
+    "cssClass": null,
+    "listClass": "warning",
+    "isDefault": "Y",
+    "status": "0",
+    "default": true
+  }, {
+    "searchValue": null,
+    "createBy": "admin",
+    "createTime": "2018-03-16 03:33:00",
+    "updateBy": null,
+    "updateTime": null,
+    "remark": "公告",
+    "dataScope": null,
+    "dictCode": 13,
+    "dictSort": 2,
+    "dictLabel": "公告",
+    "dictValue": "2",
+    "dictType": "sys_notice_type",
+    "cssClass": null,
+    "listClass": "success",
+    "isDefault": "N",
+    "status": "0",
+    "default": false
+  }]
+}
