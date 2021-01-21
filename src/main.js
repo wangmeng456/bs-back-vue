@@ -33,8 +33,6 @@ import VCharts from 'v-charts'
 
 import echarts from 'echarts'
 
-import BaiduMap from 'vue-baidu-map';
-
 // 全局方法挂载
 Vue.prototype.getDicts = getDicts
 Vue.prototype.getConfigKey = getConfigKey

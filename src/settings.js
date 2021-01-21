@@ -1,5 +1,5 @@
 module.exports = {
-  title: '城市规划大数据系统',
+  title: '毕设后台',
 
   /**
    * 是否系统布局配置

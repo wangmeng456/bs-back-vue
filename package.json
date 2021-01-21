@@ -1,8 +1,8 @@
 {
-  "name": "asia-shedict-ui",
+  "name": "bs-back-vue",
   "version": "1.0.0",
-  "description": "城市规划大数据系统",
-  "author": "sunxc@asiainfo.com",
+  "description": "毕设后台",
+  "author": "wangmeng",
   "scripts": {
     "dev": "vue-cli-service serve",
     "build:prod": "vue-cli-service build",

@@ -20,7 +20,6 @@ const whiteList = [
   "/NoAccess"
 ];
 
-// 新增演示用静态路由
 const testList = [
   "/",
   "/index",
@@ -30,36 +29,11 @@ const testList = [
   "/systemSettings/personalSettings",
   "/systemSettings/parameterSetting",
 
-  "/productManagement/bulletinInfoManage",
-  "/productManagement/productParameterManagement/productParameter",
-  "/productManagement/productParameterManagement/productTemplate",
-  "/productManagement/productConfManagement/productConf",
-  "/productManagement/productConfManagement/productConfs",
-  "/orderBilling/order",
-  "/deliveryManagement/building",
-  "/deliveryManagement/productParameterManagement/synchronous",
-  "/deliveryManagement/productParameterManagement/maintenance",
-  "/deliveryManagement/productConfManagement/productConf",
-  "/deliveryManagement/productConfManagement/productConfs",
-
-  "/demandManagement/demandAudit",
-  "/demandManagement/demandFill",
   "/management/jurisdictionManagement/menuPermissions",
-  // "/management/jurisdictionManagement/systemInfoManage",
+  "/management/jurisdictionManagement/systemInfoManage",
   "/management/roleManagement/roleInformation",
   "/management/roleManagement/roleAuthorityManagement",
   "/management/accountManagement",
-  "/taskManagement/taskConfigure",
-  "/taskManagement/taskMonitor",
-
-  "/people/structure",
-  "/people/distribution",
-  "/people/travel",
-  "/people/geographicInformation",
-  "/people/urbanCommuting",
-  "/people/plan/tripDistribution",
-  "/people/plan/spaceDistribution",
-  "/people/plan/traceDistribution",
 ];
 
 router.beforeEach((to, from, next) => {

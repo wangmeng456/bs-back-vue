@@ -6,7 +6,7 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-const name = defaultSettings.title || '城市规划大数据系统' // 标题
+const name = defaultSettings.title || '毕设后台' // 标题
 
 const port = process.env.port || process.env.npm_config_port || 81 // 端口
 
@@ -34,15 +34,7 @@ module.exports = {
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       [process.env.VUE_APP_BASE_API]: {
         // 本地开发地址
-        // target: `http://127.0.0.1:8091`,
-        // target: `http://192.168.3.193:8095`,
-        // target: `http://10.1.236.150:8095/`,
-        // 亚信云
-        target: `http://10.1.236.150:8095`,
-        // 沈阳线上开发地址
-        // target: `http://136.96.134.45:8091`,
-        // 宁夏线上开发地址
-        // target: `http://218.95.161.236:8080`,
+        target: `http://localhost:8080`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''
