@@ -77,7 +77,6 @@ export const constantRoutes = [
       {
         path: "index",
         component: () => import('@/views/index'),
-        // component: () => import("@/views/sandTableView/businessView/contractingUnitView"),
         name: "首页",
         meta: {
           title: "首页",
@@ -88,184 +87,93 @@ export const constantRoutes = [
       }
     ]
   },
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~消息管理 start ~~~~~~~~~~~~~~~~~~~~~~~~~
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~课程管理 start ~~~~~~~~~~~~~~~~~~~~~~~~~
   {
-    name: "消息管理",
-    path: "/messageManagement",
+    name: "课程管理",
+    path: "/curriculum",
     redirect: "noRedirect",
     component: Layout,
     alwaysShow: true,
     meta: {
-      title: "消息管理",
+      title: "课程管理",
       icon: "dict-space"
     },
     children: [
       {
-        name: "公告信息管理",
-        path: "bulletinInfoManage",
-        component: () => import('@/views/messageManagement/bulletinInfoManage'),
+        name: "视频管理",
+        path: "videoManagement",
+        component: () => import('@/views/curriculum/videoManagement'),
         meta: {
-          title: "公告信息管理",
-          icon: "building-info-manage"
+          title: "视频管理",
+          icon: "campus-space-manage"
         }
       },
       {
-        name: "系统通知管理",
-        path: "systemInfoManage",
-        component: () => import('@/views/messageManagement/systemInfoManage'),
+        name: "题目管理",
+        path: "subjectManagement",
+        component: () => import('@/views/curriculum/subjectManagement'),
         meta: {
-          title: "系统通知管理",
-          icon: "building-info-manage"
+          title: "题目管理",
+          icon: "student-company-manage"
         }
-      }
+      },
     ]
   },
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~消息管理 end ~~~~~~~~~~~~~~~~~~~~~~~~~
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~权限管理 start ~~~~~~~~~~~~~~~~~~~~~~~~~
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~课程管理 end ~~~~~~~~~~~~~~~~~~~~~~~~~
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~系统管理 start ~~~~~~~~~~~~~~~~~~~~~~~~~
   {
-    name: "权限管理",
+    name: "系统管理",
     path: "/management",
     redirect: "noRedirect",
     component: Layout,
     alwaysShow: true,
     meta: {
-      title: "权限管理",
-      icon: "dict-space"
+      title: "系统管理",
+      icon: "system"
     },
     children: [
-      {
-        name: "权限管理",
-        path: "jurisdictionManagement",
-        component: MultiMenuBaseView,
-        meta: {
-          title: "权限管理",
-          icon: "building-info-manage"
-        },
-        children: [
-          {
-            name: "菜单权限",
-            path: "menuPermissions",
-            component: () => import('@/views/management/jurisdictionManagement/authorityManagement/menuPermissions'),
-            meta: {
-              title: "菜单权限",
-              icon: "building-info-manage"
-            }
-          },
-          {
-            name: "数据权限",
-            path: "systemInfoManage",
-            component: () => import('@/views/management/jurisdictionManagement/authorityManagement/dataPermission'),
-            meta: {
-              title: "数据权限",
-              icon: "building-info-manage"
-            }
-          }
-        ]
-      },
       {
         name: "角色管理",
         path: "roleManagement",
-        component: MultiMenuBaseView,
+        component: () => import('@/views/management/roleManagement'),
         meta: {
           title: "角色管理",
-          icon: "building-info-manage"
-        },
-        children: [
-          {
-            name: "角色基本信息",
-            path: "roleInformation",
-            component: () => import('@/views/management/jurisdictionManagement/roleManagement/roleInformation'),
-            meta: {
-              title: "角色基本信息",
-              icon: "building-info-manage"
-            }
-          },
-          {
-            name: "角色权限管理",
-            path: "roleAuthorityManagement",
-            component: () => import('@/views/management/jurisdictionManagement/roleManagement/roleAuthorityManagement'),
-            meta: {
-              title: "角色权限管理",
-              icon: "building-info-manage"
-            }
-          }
-        ]
+          icon: "peoples"
+        }
       },
       {
-        name: "账号管理",
+        name: "用户管理",
         path: "accountManagement",
-        component: () => import('@/views/management/jurisdictionManagement/accountManagement'),
+        component: () => import('@/views/management/accountManagement'),
         meta: {
-          title: "账号管理",
-          icon: "building-info-manage"
+          title: "用户管理",
+          icon: "user"
         }
       }
     ]
   },
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~权限管理 end ~~~~~~~~~~~~~~~~~~~~~~~~~
-  
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~日志管理 start ~~~~~~~~~~~~~~~~~~~~~~~~~
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~系统管理 end ~~~~~~~~~~~~~~~~~~~~~~~~~
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~个人中心 start ~~~~~~~~~~~~~~~~~~~~~~~~~
   {
-    name: "日志信息管理",
-    path: "/logManagement",
-    redirect: "noRedirect",
+    path: '/user',
     component: Layout,
-    alwaysShow: true,
-    meta: {
-      title: "日志信息管理",
-      icon: "dict-space"
-    },
+    hidden: true,
+    redirect: 'noredirect',
     children: [
       {
-        name: "日志记录",
-        path: "logging",
-        component: () => import('@/views/logManagement/logging'),
-        meta: {
-          title: "日志记录",
-          icon: "building-info-manage"
-        }
+        path: 'profile',
+        component: (resolve) => require(['@/views/user/profile/index'], resolve),
+        name: 'Profile',
+        meta: { title: '个人中心', icon: 'user' }
       }
     ]
   },
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~日志管理 end ~~~~~~~~~~~~~~~~~~~~~~~~~
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~系统常规设置 start ~~~~~~~~~~~~~~~~~~~~~~~~~
-  {
-    name: "系统常规设置",
-    path: "/systemSettings",
-    redirect: "noRedirect",
-    component: Layout,
-    alwaysShow: true,
-    meta: {
-      title: "系统常规设置",
-      icon: "dict-space"
-    },
-    children: [
-      {
-        name: "个人信息设置",
-        path: "personalSettings",
-        component: () => import('@/views/systemSettings/personalSettings'),
-        meta: {
-          title: "个人信息设置",
-          icon: "building-info-manage"
-        }
-      },
-      {
-        name: "系统参数设置",
-        path: "parameterSetting",
-        component: () => import('@/views/systemSettings/parameterSetting'),
-        meta: {
-          title: "系统参数设置",
-          icon: "building-info-manage"
-        }
-      }
-    ]
-  },
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~系统常规设置 end ~~~~~~~~~~~~~~~~~~~~~~~~~
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~个人中心 end ~~~~~~~~~~~~~~~~~~~~~~~~~
 ];
 
 export default new Router({
   mode: "history", // 去掉url中的#
-  base: '/apps/cityplanning',
+  base: '/',
   scrollBehavior: () => ({
     y: 0
   }),

@@ -23,17 +23,12 @@ const whiteList = [
 const testList = [
   "/",
   "/index",
-  "/messageManagement/bulletinInfoManage",
-  "/messageManagement/systemInfoManage",
-  "/logManagement/logging",
+  "/user/profile",
   "/systemSettings/personalSettings",
-  "/systemSettings/parameterSetting",
-
-  "/management/jurisdictionManagement/menuPermissions",
-  "/management/jurisdictionManagement/systemInfoManage",
-  "/management/roleManagement/roleInformation",
-  "/management/roleManagement/roleAuthorityManagement",
+  "/management/roleManagement",
   "/management/accountManagement",
+  "/curriculum/videoManagement",
+  "/curriculum/subjectManagement",
 ];
 
 router.beforeEach((to, from, next) => {
