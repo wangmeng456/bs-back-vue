@@ -1,7 +1,7 @@
 <!--
  * @Author: wangmeng
  * @Date: 2021-01-27 14:57:52
- * @LastEditTime: 2021-01-27 11:15:28
+ * @LastEditTime: 2021-01-27 18:22:11
  * @LastEditors: wangmeng
  * @Description: 视频管理页面
  * @FilePath: https://github.com/wangmeng456/bs-back-vue/tree/master/src/views/curriculum/videoManagement.vue
