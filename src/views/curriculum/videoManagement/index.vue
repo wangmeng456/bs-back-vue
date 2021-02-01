@@ -257,7 +257,7 @@ export default {
           img: require("@/assets/mp4/shipin.mp4"),
         },
       ],
-      activeData: [], // 盛放选中的用户
+      activeData: [], // 盛放选中的视频
       multiple: true, // 删除按钮状态
       total: 10,
       page: 1,
@@ -321,7 +321,7 @@ export default {
         return false;
       }
       if (!isLt200M) {
-        this.$message.error("上传视频大小不能超过200MB哦!");
+        this.$message.error("上传视频大小不能超过1GB哦!");
         return false;
       }
       this.addVideo.isShowUploadVideo = false;
@@ -366,7 +366,7 @@ export default {
         return false;
       }
       if (!isLt200M) {
-        this.$message.error("上传视频大小不能超过200MB哦!");
+        this.$message.error("上传视频大小不能超过1GB哦!");
         return false;
       }
       this.editVideo.isShowUploadVideo = false;
