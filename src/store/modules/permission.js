@@ -1,9 +1,6 @@
 import {
   constantRoutes
 } from '@/router'
-import {
-  getRouters
-} from '@/api/menu'
 import datas from './data'
 import Layout from '@/layout/index'
 // 这是专门为了多级菜单，而使用的一个用作路由转换的基础组件

@@ -26,7 +26,7 @@ export default {
   },
   data() {
     return {
-      title: '毕设后台',
+      title: '少儿编程教育平台',
       logo: logoImg
     }
   }

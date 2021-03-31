@@ -9,6 +9,8 @@ import {
   getToken
 } from '@/utils/auth'
 
+import { getStore } from "@/utils/localStore";
+
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // 创建axios实例
 const service = axios.create({
@@ -17,18 +19,22 @@ const service = axios.create({
   // 超时
   // timeout: 10000
 })
+
+// 获取存储在本地的信息
+let user = JSON.parse(getStore("user"));
+
 // request拦截器
 service.interceptors.request.use(
   config => {
     // 请求时不加认证的接口名称白名单
-    const whiteList = ['/login', '/captchaImage']
+    const whiteList = ['/login']
     const isWhite = whiteList.some((element, index, arr) => {
       return config.url === element;
     })
-    if (getToken() && !isWhite) {
+    if (user !== null && !isWhite) {
       // if(config.url && !config.url.match('custInfo')){
       //   axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8'
-        config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+        config.headers['Authorization'] = 'Bearer ' + user.id // 让每个请求携带自定义token 请根据实际情况自行修改
       // }
     }
     return config
@@ -40,39 +46,39 @@ service.interceptors.request.use(
 )
 
 // 响应拦截器
-service.interceptors.response.use(res => {
-    const code = res.data.code
-    if (code === 401) {
-      MessageBox.confirm(
-        '登录状态已过期，您可以继续留在该页面，或者重新登录',
-        '系统提示', {
-          confirmButtonText: '重新登录',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }
-      ).then(() => {
-        store.dispatch('LogOut').then(() => {
-          location.reload() // 为了重新实例化vue-router对象 避免bug
-        })
-      })
-    } else if (code !== 200) {
-      Notification.error({
-        title: res.data.msg
-      })
-      return Promise.reject('error')
-    } else {
-      return res.data
-    }
-  },
-  error => {
-    console.log('err' + error)
-    Message({
-      message: error.message,
-      type: 'error',
-      duration: 5 * 1000
-    })
-    return Promise.reject(error)
-  }
-)
+// service.interceptors.response.use(res => {
+//     const code = res.data.code
+//     if (code === 401) {
+//       MessageBox.confirm(
+//         '登录状态已过期，您可以继续留在该页面，或者重新登录',
+//         '系统提示', {
+//           confirmButtonText: '重新登录',
+//           cancelButtonText: '取消',
+//           type: 'warning'
+//         }
+//       ).then(() => {
+//         store.dispatch('LogOut').then(() => {
+//           location.reload() // 为了重新实例化vue-router对象 避免bug
+//         })
+//       })
+//     } else if (code !== 200) {
+//       Notification.error({
+//         title: res.data.msg
+//       })
+//       return Promise.reject('error')
+//     } else {
+//       return res.data
+//     }
+//   },
+//   error => {
+//     console.log('err' + error)
+//     Message({
+//       message: error.message,
+//       type: 'error',
+//       duration: 5 * 1000
+//     })
+//     return Promise.reject(error)
+//   }
+// )
 
 export default service

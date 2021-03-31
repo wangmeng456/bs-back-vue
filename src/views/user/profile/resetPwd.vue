@@ -1,10 +1,6 @@
 <!--
  * @Author: wangmeng
- * @Date: 2021-01-25 17:30:04
- * @LastEditTime: 2021-01-25 17:30:04
- * @LastEditors: wangmeng
  * @Description: 忘记密码组件
- * @FilePath: https://github.com/wangmeng456/bs-back-vue/tree/master/src/views/user/profile/resetPwd.vue
 -->
 <template>
   <el-form ref="form" :model="user" :rules="rules" label-width="80px">
@@ -25,7 +21,6 @@
 </template>
 
 <script>
-import { updateUserPwd } from "@/api/system/user";
 
 export default {
   data() {

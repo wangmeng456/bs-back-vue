@@ -1,5 +1,5 @@
 module.exports = {
-  title: '毕设后台',
+  title: '少儿编程教育平台',
 
   /**
    * 是否系统布局配置

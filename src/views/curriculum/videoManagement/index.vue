@@ -1,10 +1,6 @@
 <!--
  * @Author: wangmeng
- * @Date: 2021-01-27 14:57:52
- * @LastEditTime: 2021-01-27 18:22:11
- * @LastEditors: wangmeng
  * @Description: 视频管理页面
- * @FilePath: https://github.com/wangmeng456/bs-back-vue/tree/master/src/views/curriculum/videoManagement.vue
 -->
 <template>
   <div class="video">
@@ -13,8 +9,8 @@
         <el-form-item label="课程名称" label-width="70px">
           <el-input v-model="form.name" placeholder="请输入课程名称"></el-input>
         </el-form-item>
-        <el-form-item label="课程类型" label-width="70px">
-          <el-select v-model="form.type" placeholder="请选择课程类型">
+        <!-- <el-form-item label="课程目录" label-width="70px">
+          <el-select v-model="form.type" placeholder="请选择课程目录">
             <el-option
               v-for="(item, index) in form.option"
               :key="index"
@@ -22,7 +18,7 @@
               :value="item.data"
             ></el-option>
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item>
           <el-button type="primary"
             ><i class="el-icon-search"></i> 查询</el-button
@@ -53,7 +49,7 @@
           </template>
         </el-table-column>
         <el-table-column
-          label="课程类型"
+          label="课程目录"
           prop="type"
           show-overflow-tooltip
         ></el-table-column>
@@ -88,15 +84,19 @@
             placeholder="请输入课程名称"
           ></el-input>
         </el-form-item>
-        <el-form-item label="课程类型" label-width="70px">
-          <el-select v-model="addVideo.type" placeholder="请选择课程类型">
+        <el-form-item label="课程目录" label-width="70px">
+          <el-input
+            v-model="addVideo.type"
+            placeholder="请输入课程目录"
+          ></el-input>
+          <!-- <el-select v-model="addVideo.type" placeholder="请选择课程目录">
             <el-option
               v-for="(item, index) in addVideo.option"
               :key="index"
               :label="item.label"
               :value="item.data"
             ></el-option>
-          </el-select>
+          </el-select> -->
         </el-form-item>
         <el-form-item label="上传视频" label-width="70px">
           <el-upload
@@ -159,8 +159,8 @@
         <el-form-item label="课程名称" label-width="70px">
           <el-input v-model="formVideo.name" disabled></el-input>
         </el-form-item>
-        <el-form-item label="课程类型" label-width="70px">
-          <el-input v-model="formVideo.name" disabled></el-input>
+        <el-form-item label="课程目录" label-width="70px">
+          <el-input v-model="formVideo.type" disabled></el-input>
         </el-form-item>
         <el-form-item label="上传时间" label-width="70px">
           <el-date-picker v-model="formVideo.time" type="datetime" disabled>
@@ -183,7 +183,7 @@
         <el-form-item label="课程名称" label-width="70px">
           <el-input v-model="editVideo.name"></el-input>
         </el-form-item>
-        <el-form-item label="课程类型" label-width="70px">
+        <el-form-item label="课程目录" label-width="70px">
           <el-input v-model="editVideo.name"></el-input>
         </el-form-item>
         <el-form-item label="视频课程" label-width="70px">
@@ -243,23 +243,18 @@ export default {
       form: {
         name: "",
         type: "",
-        option: [
-          { label: "Python", data: "python" },
-          { label: "C/C++", data: "c" },
-          { label: "JS", data: "js" },
-        ],
       },
       tableData: [
         {
-          name: "XXX",
-          type: "xxxx",
+          name: "初识编程",
+          type: "初识编程",
           time: "2021-1-27 15:17:33",
           img: require("@/assets/mp4/shipin.mp4"),
         },
       ],
       activeData: [], // 盛放选中的视频
       multiple: true, // 删除按钮状态
-      total: 10,
+      total: 1,
       page: 1,
       limit: 10,
       pageSizes: [10, 20, 30, 50],
@@ -267,11 +262,6 @@ export default {
       addVideo: {
         name: "",
         type: "",
-        option: [
-          { label: "Python", data: "python" },
-          { label: "C/C++", data: "c" },
-          { label: "JS", data: "js" },
-        ],
         uploadUrl: "", // 要上传视频到后台的地址
         videoFlag: false, // 是否显示进度条
         videoUploadPercent: "", // 进度条的进度

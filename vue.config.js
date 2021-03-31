@@ -6,7 +6,7 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-const name = defaultSettings.title || '毕设后台' // 标题
+const name = defaultSettings.title || '少儿编程教育平台' // 标题
 
 const port = process.env.port || process.env.npm_config_port || 81 // 端口
 
@@ -34,7 +34,8 @@ module.exports = {
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       [process.env.VUE_APP_BASE_API]: {
         // 本地开发地址
-        target: `http://localhost:8080`,
+        // target: `http://localhost:8080`,
+        target: `http://www.melonseeds.top:8081`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''

@@ -1,10 +1,6 @@
 <!--
  * @Author: wangmeng
- * @Date: 2021-01-26 18:03:06
- * @LastEditTime: 2021-01-27 11:15:28
- * @LastEditors: wangmeng
  * @Description: 用户管理页面
- * @FilePath: https://github.com/wangmeng456/bs-back-vue/tree/master/src/views/management/accountManagement.vue
 -->
 <template>
   <div class="account">
@@ -43,12 +39,25 @@
         max-height="500"
         style="max-height: 500px; min-height: 200px; width: 100%"
         @selection-change="handleSelectionChange"
+        v-loading = "loading"
       >
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column label="用户ID" prop="id" show-overflow-tooltip></el-table-column>
-        <el-table-column label="用户名称" prop="name" show-overflow-tooltip></el-table-column>
-        <el-table-column label="用户昵称" prop="nick" show-overflow-tooltip></el-table-column>
-        <el-table-column label="邮箱" prop="email" show-overflow-tooltip></el-table-column>
+        <el-table-column
+          label="用户ID"
+          prop="id"
+          show-overflow-tooltip
+        ></el-table-column>
+        <el-table-column
+          label="用户昵称"
+          prop="name"
+          show-overflow-tooltip
+        ></el-table-column>
+        <!-- <el-table-column label="用户昵称" prop="nick" show-overflow-tooltip></el-table-column> -->
+        <el-table-column
+          label="邮箱"
+          prop="email"
+          show-overflow-tooltip
+        ></el-table-column>
         <el-table-column label="用户状态" prop="status"></el-table-column>
         <el-table-column label="操作" width="120">
           <template slot-scope="scope">
@@ -74,18 +83,18 @@
             placeholder="请输入用户ID"
           ></el-input>
         </el-form-item>
-        <el-form-item label="用户名称" label-width="70px">
+        <el-form-item label="用户昵称" label-width="70px">
           <el-input
             v-model="editAccount.name"
-            placeholder="请输入用户名称"
+            placeholder="请输入用户昵称"
           ></el-input>
         </el-form-item>
-        <el-form-item label="用户昵称" label-width="70px">
+        <!-- <el-form-item label="用户昵称" label-width="70px">
           <el-input
             v-model="editAccount.nick"
             placeholder="请输入用户昵称"
           ></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="邮箱" label-width="70px">
           <el-input
             v-model="editAccount.email"
@@ -115,6 +124,9 @@
 
 <script>
 import Pagination from "@/components/Pagination/index.vue";
+
+import { user } from "@/api/user";
+
 export default {
   name: "accountManagement",
   components: { Pagination },
@@ -131,16 +143,16 @@ export default {
       },
       tableData: [
         {
-          id: "xxxxx",
-          name: "XXX",
-          nick: "xxxx",
-          email: "xxxxx",
-          status: "用户",
+          id: "0001",
+          name: "wangmeng",
+          email: "3197985967@qq.com",
+          status: "管理员",
         },
       ],
+      loading: false,
       activeData: [], // 盛放选中的用户
       multiple: true, // 删除按钮状态
-      total: 10,
+      total: 1,
       page: 1,
       limit: 10,
       pageSizes: [10, 20, 30, 50],
@@ -158,8 +170,22 @@ export default {
       },
     };
   },
-  created() {},
+  created() {
+    this.handleUser();
+  },
   methods: {
+    // 查询用户信息
+    handleUser() {
+      this.loading = true;
+      user
+        .users()
+        .then((res) => {
+          console.log(res);
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
     handleSelectionChange(val) {
       this.activeData = val;
       // 判断多选框是否选中，不选中删除按钮禁用

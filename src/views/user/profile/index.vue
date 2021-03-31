@@ -1,10 +1,6 @@
 <!--
  * @Author: wangmeng
- * @Date: 2021-01-25 17:30:04
- * @LastEditTime: 2021-01-25 17:30:04
- * @LastEditors: wangmeng
  * @Description: 个人中心页面
- * @FilePath: https://github.com/wangmeng456/bs-back-vue/tree/master/src/views/user/profile/index.vue
 -->
 <template>
   <div class="app-container">
@@ -62,7 +58,6 @@
 import userAvatar from "./userAvatar";
 import userInfo from "./userInfo";
 import resetPwd from "./resetPwd";
-import { getUserProfile } from "@/api/system/user";
 
 export default {
   name: "Profile",

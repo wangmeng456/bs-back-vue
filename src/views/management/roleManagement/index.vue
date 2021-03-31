@@ -1,10 +1,6 @@
 <!--
  * @Author: wangmeng
- * @Date: 2021-01-26 18:03:06
- * @LastEditTime: 2021-01-27 11:15:28
- * @LastEditors: wangmeng
  * @Description: 角色管理页面
- * @FilePath: https://github.com/wangmeng456/bs-back-vue/tree/master/src/views/management/roleManagement.vue
 -->
 <template>
   <div class="role">

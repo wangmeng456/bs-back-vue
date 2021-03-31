@@ -12,15 +12,8 @@ import App from './App'
 import store from './store'
 import router from './router'
 import permission from './directive/permission'
-import loginByRsa from '@/api/rsa'
 import './assets/icons' // icon
 import './permission' // permission control
-import {
-  getDicts
-} from "@/api/system/dict/data";
-import {
-  getConfigKey
-} from "@/api/system/config";
 import {
   transformDateFormat,
   resetForm,
@@ -34,13 +27,10 @@ import VCharts from 'v-charts'
 import echarts from 'echarts'
 
 import VideoPlayer from 'vue-video-player'
-require('video.js/dist/video-js.css')
-require('vue-video-player/src/custom-theme.css')
+import 'video.js/dist/video-js.css';
 Vue.use(VideoPlayer)
 
 // 全局方法挂载
-Vue.prototype.getDicts = getDicts
-Vue.prototype.getConfigKey = getConfigKey
 Vue.prototype.transformDateFormat = transformDateFormat
 Vue.prototype.resetForm = resetForm
 Vue.prototype.addDateRange = addDateRange

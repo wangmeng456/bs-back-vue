@@ -1,10 +1,6 @@
 <!--
  * @Author: wangmeng
- * @Date: 2021-01-25 17:30:04
- * @LastEditTime: 2021-01-25 17:30:04
- * @LastEditors: wangmeng
  * @Description: 编辑信息组件
- * @FilePath: https://github.com/wangmeng456/bs-back-vue/tree/master/src/views/user/profile/userInfo.vue
 -->
 <template>
   <el-form ref="form" :model="user" :rules="rules" label-width="80px">
@@ -28,7 +24,6 @@
 </template>
 
 <script>
-import { updateUserProfile } from "@/api/system/user";
 
 export default {
   props: {

@@ -60,19 +60,14 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: "/rsa",
-    component: () => import("@/views/rsa"),
-    hidden: true
-  },
-  {
     path: "/401",
     component: () => import("@/views/error/401"),
     hidden: true
   },
   {
-    path: "",
+    path: "/index",
     component: Layout,
-    redirect: "index",
+    redirect: "noRedirect",
     children: [
       {
         path: "index",
@@ -109,11 +104,11 @@ export const constantRoutes = [
         }
       },
       {
-        name: "题目管理",
+        name: "练习题管理",
         path: "subjectManagement",
         component: () => import('@/views/curriculum/subjectManagement'),
         meta: {
-          title: "题目管理",
+          title: "练习题管理",
           icon: "student-company-manage"
         }
       },

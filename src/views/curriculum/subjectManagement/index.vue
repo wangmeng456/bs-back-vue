@@ -1,10 +1,6 @@
 <!--
  * @Author: wangmeng
- * @Date: 2021-02-01 16:07:16
- * @LastEditTime: 2021-02-01 17:19:40
- * @LastEditors: wangmeng
- * @Description: 题目管理页面
- * @FilePath: https://github.com/wangmeng456/bs-back-vue/tree/master/src/views/curriculum/subjectManagement.vue
+ * @Description: 练习题管理页面
 -->
 <template>
   <div class="subject">
@@ -24,12 +20,13 @@
           </el-select>
         </el-form-item>
         <el-form-item label="从属课程" label-width="70px">
-          <el-cascader
+          <el-input v-model="form.video" placeholder="请输入从属课程"></el-input>
+          <!-- <el-cascader
             v-model="form.video"
             :options="form.options"
             placeholder="请选择从属课程"
             @change="handleChange"
-          ></el-cascader>
+          ></el-cascader> -->
         </el-form-item>
         <el-form-item>
           <el-button type="primary"
@@ -53,6 +50,7 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55"></el-table-column>
+        <el-table-column type="index" width="80" label="题目顺序"></el-table-column>
         <el-table-column label="题目名称" prop="name" show-overflow-tooltip>
           <template slot-scope="scope">
             <el-button type="text" @click="formSubjects(scope.row)">{{
@@ -64,7 +62,7 @@
         </el-table-column>
         <el-table-column label="从属课程" prop="video" show-overflow-tooltip
           ><template slot-scope="scope"
-            >{{ scope.row.video }}/{{ scope.row.videos }}</template
+            >{{ scope.row.video }}</template
           ></el-table-column
         >
         <el-table-column
@@ -135,11 +133,14 @@
     <!-- 查看课程详情 弹框 -->
     <el-dialog :visible.sync="formDialogVisible">
       <el-form :model="formSubject">
+        <el-form-item label="题目顺序" label-width="70px">
+          <el-input v-model="formSubject.index" disabled></el-input>
+        </el-form-item>
         <el-form-item label="题目名称" label-width="70px">
           <el-input v-model="formSubject.name" disabled></el-input>
         </el-form-item>
         <el-form-item label="题目类型" label-width="70px">
-          <el-input v-model="formSubject.name" disabled></el-input>
+          <el-input v-model="formSubject.type" disabled></el-input>
         </el-form-item>
         <el-form-item label="题目答案" label-width="70px">
           <el-input
@@ -271,17 +272,17 @@ export default {
       },
       tableData: [
         {
-          name: "XXX",
-          type: "xxxx",
-          video: "C/C++",
-          videos: "xxx",
+          name: "看完本节课程，你理解的编程是什么呢？",
+          type: "练习",
+          video: "初识编程",
+          // videos: "xxx",
           time: "2021-1-27 15:17:33",
-          answer: "xxxxxxxx",
+          answer: "言之有理即可",
         },
       ],
       activeData: [], // 盛放选中的题目
       multiple: true, // 删除按钮状态
-      total: 10,
+      total: 1,
       page: 1,
       limit: 10,
       pageSizes: [10, 20, 30, 50],
@@ -343,6 +344,7 @@ export default {
       },
       formDialogVisible: false, // 查看
       formSubject: {
+        index: "1",
         name: "",
         type: "",
         time: "",
@@ -435,7 +437,7 @@ export default {
       this.formSubject.name = data.name;
       this.formSubject.type = data.type;
       this.formSubject.time = data.time;
-      this.formSubject.video = data.video + "/" + data.videos;
+      this.formSubject.video = data.video;
       this.formSubject.answer = data.answer;
     },
     // 编辑课程

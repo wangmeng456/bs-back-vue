@@ -1,10 +1,6 @@
 <!--
  * @Author: wangmeng
- * @Date: 2021-01-25 17:30:04
- * @LastEditTime: 2021-01-25 17:30:04
- * @LastEditors: wangmeng
  * @Description: 上传头像组件
- * @FilePath: https://github.com/wangmeng456/bs-back-vue/tree/master/src/views/user/profile/userAvatar.vue
 -->
 <template>
   <div>
@@ -62,7 +58,6 @@
 <script>
 import store from "@/store";
 import { VueCropper } from "vue-cropper";
-import { uploadAvatar } from "@/api/system/user";
 
 export default {
   components: { VueCropper },
