@@ -1,208 +1,197 @@
 <!--
  * @Author: wangmeng
- * @Description: 练习题管理页面
+ * @Description: 评论管理页面
 -->
 <template>
-  <div class="subject">
-    <div class="subject-header">
+  <div class="comment">
+    <div class="comment-header">
       <el-form :model="form">
-        <el-form-item label="题目名称" label-width="70px">
-          <el-input v-model="form.name" placeholder="请输入题目名称"></el-input>
-        </el-form-item>
-        <el-form-item label="题目类型" label-width="70px">
-          <el-select v-model="form.type" placeholder="请选择题目类型">
+        <el-form-item label="  ">
+          <el-select v-model="form.type" @change="currStationChange">
             <el-option
-              v-for="(item, index) in form.option"
+              v-for="(item, index) in option"
               :key="index"
-              :label="item.label"
-              :value="item.data"
+              :label="item.name"
+              :value="item.value"
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="从属课程" label-width="70px">
-          <el-input v-model="form.video" placeholder="请输入从属课程"></el-input>
-          <!-- <el-cascader
+        <!-- 课程 -->
+        <el-form-item label="  " label-width="20px">
+          <el-select
+            v-show="flag == 0"
             v-model="form.video"
-            :options="form.options"
-            placeholder="请选择从属课程"
-            @change="handleChange"
-          ></el-cascader> -->
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary"
-            ><i class="el-icon-search"></i> 查询</el-button
+            @change="currStationChangeVideo"
           >
-          <el-button><i class="el-icon-refresh"> 重置</i></el-button>
+            <el-option
+              v-for="(item, index) in videoOption"
+              :key="index"
+              :label="item.coursetitle"
+              :value="item.courseid"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <!-- 分类 -->
+        <el-form-item label="  " label-width="20px">
+          <el-select
+            v-show="flag == 1"
+            v-model="form.all"
+            @change="currStationChangeAll"
+          >
+            <el-option
+              v-for="(item, index) in allOption"
+              :key="index"
+              :label="item.papersort"
+              :value="item.papersort"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <!-- 课程下的章节 -->
+        <el-form-item label="  " label-width="20px">
+          <el-select v-model="form.paper" @change="currStationChangePaper">
+            <el-option
+              v-for="(item, index) in paperOption"
+              :key="index"
+              :label="item.name || item.title"
+              :value="item.paperid"
+            ></el-option>
+          </el-select>
         </el-form-item>
       </el-form>
     </div>
-    <div class="subject-container">
-      <el-button type="primary" plain @click="addSubjects"
-        ><i class="el-icon-plus"></i> 新建题目</el-button
+    <div class="comment-container">
+      <el-button type="primary" plain @click="addPapers"
+        ><i class="el-icon-plus"></i> 新建试题</el-button
       >
-      <el-button type="danger" plain :disabled="multiple"
+      <!-- <el-button type="danger" plain :disabled="multiple"
         ><i class="el-icon-delete"></i> 批量删除</el-button
-      >
+      > -->
       <el-table
         :data="tableData"
         max-height="500"
         style="max-height: 500px; min-height: 200px; width: 100%"
-        @selection-change="handleSelectionChange"
       >
-        <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column type="index" width="80" label="题目顺序"></el-table-column>
-        <el-table-column label="题目名称" prop="name" show-overflow-tooltip>
-          <template slot-scope="scope">
-            <el-button type="text" @click="formSubjects(scope.row)">{{
-              scope.row.name
-            }}</el-button>
-          </template>
-        </el-table-column>
-        <el-table-column label="题目类型" prop="type" show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column label="从属课程" prop="video" show-overflow-tooltip
-          ><template slot-scope="scope"
-            >{{ scope.row.video }}</template
-          ></el-table-column
-        >
+        <!-- <el-table-column type="selection" width="55"></el-table-column> -->
         <el-table-column
-          label="上传时间"
-          prop="time"
+          label="题号"
+          prop="practiceindex"
           show-overflow-tooltip
         ></el-table-column>
-        <el-table-column label="操作" width="120">
+        <el-table-column
+          label="习题类型"
+          prop="practicetype"
+          show-overflow-tooltip
+        >
           <template slot-scope="scope">
-            <el-button type="text" @click="editSubjects(scope.row)"
+            <span v-if="scope.row.practicetype == 1">单选</span>
+            <span v-if="scope.row.practicetype == 2">多选</span>
+            <span v-if="scope.row.practicetype == 3">简答</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="习题问题"
+          prop="practicequestion"
+          show-overflow-tooltip
+        ></el-table-column>
+        <el-table-column
+          label="习题回答"
+          prop="practiceanother"
+          show-overflow-tooltip
+        ></el-table-column>
+        <el-table-column
+          label="习题答案"
+          prop="practiceanswer"
+          show-overflow-tooltip
+        ></el-table-column>
+        <el-table-column label="操作" width="180">
+          <template slot-scope="scope">
+            <el-button type="text" @click="editVideos(scope.row)"
               >编辑</el-button
             >
-            <el-button type="text">删除</el-button>
+            <el-button type="text" @click="deletePratice(scope.row)"
+              >删除</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
-      <Pagination
+      <!-- <Pagination
         v-show="tableData.length > 0"
         :total="total"
         :page="page"
         :limit="limit"
         :pageSizes="pageSizes"
-      />
+      /> -->
     </div>
-    <!-- 新增题目 弹框 -->
-    <el-dialog title="新增题目" :visible.sync="addDialogVisible">
+    <!-- 新增试卷 弹框 -->
+    <el-dialog :visible.sync="addDialogVisible">
       <el-form :model="addSubject">
-        <el-form-item label="题目名称" label-width="70px">
-          <el-input
-            v-model="addSubject.name"
-            placeholder="请输入题目名称"
-          ></el-input>
+        <el-form-item label="题号" label-width="70px">
+          <el-input v-model="addSubject.practiceindex"></el-input>
         </el-form-item>
-        <el-form-item label="题目类型" label-width="70px">
-          <el-select v-model="addSubject.type" placeholder="请选择题目类型">
+        <el-form-item label="习题类型" label-width="70px">
+          <el-select
+            v-model="addSubject.practicetype"
+            @change="currStationChangePaperAdd"
+          >
             <el-option
-              v-for="(item, index) in addSubject.option"
+              v-for="(item, index) in options"
               :key="index"
-              :label="item.label"
-              :value="item.data"
+              :label="item.name"
+              :value="item.value"
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="题目答案" label-width="70px">
-          <el-input
-            type="textarea"
-            :rows="4"
-            v-model="addSubject.name"
-            placeholder="请输入题目答案"
-          ></el-input>
+        <el-form-item label="习题问题" label-width="70px">
+          <el-input v-model="addSubject.practicequestion"></el-input>
         </el-form-item>
-        <el-form-item label="从属课程" label-width="70px">
-          <el-cascader
-            v-model="addSubject.video"
-            :options="addSubject.options"
-            placeholder="请选择从属课程"
-            @change="addChange"
-          ></el-cascader>
+        <el-form-item label="习题答案" label-width="70px">
+          <el-input v-model="addSubject.practiceanswer"></el-input>
+          <span>例如：单选A；多选A,B</span>
+        </el-form-item>
+        <el-form-item label="习题回答" label-width="70px">
+          <el-input v-model="addSubject.practiceanother"></el-input>
+          <span>例如：A:选项a;B:选项b;C:选项c;</span>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="addDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addDialogVisible = false"
-          >确 定</el-button
-        >
+        <el-button @click="cancalAdd">取 消</el-button>
+        <el-button type="primary" @click="submitAdd">确 定</el-button>
       </div>
     </el-dialog>
-    <!-- 查看课程详情 弹框 -->
-    <el-dialog :visible.sync="formDialogVisible">
-      <el-form :model="formSubject">
-        <el-form-item label="题目顺序" label-width="70px">
-          <el-input v-model="formSubject.index" disabled></el-input>
-        </el-form-item>
-        <el-form-item label="题目名称" label-width="70px">
-          <el-input v-model="formSubject.name" disabled></el-input>
-        </el-form-item>
-        <el-form-item label="题目类型" label-width="70px">
-          <el-input v-model="formSubject.type" disabled></el-input>
-        </el-form-item>
-        <el-form-item label="题目答案" label-width="70px">
-          <el-input
-            type="textarea"
-            :rows="4"
-            v-model="formSubject.answer"
-            disabled
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="从属课程" label-width="70px">
-          <el-input v-model="formSubject.video" disabled></el-input>
-        </el-form-item>
-        <el-form-item label="上传时间" label-width="70px">
-          <el-date-picker v-model="formSubject.time" type="datetime" disabled>
-          </el-date-picker>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="formDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="formDialogVisible = false"
-          >确 定</el-button
-        >
-      </div>
-    </el-dialog>
-    <!-- 编辑课程 弹框 -->
+    <!-- 编辑试卷 弹框 -->
     <el-dialog :visible.sync="editDialogVisible">
       <el-form :model="editSubject">
-        <el-form-item label="题目名称" label-width="70px">
-          <el-input v-model="editSubject.name"></el-input>
+        <el-form-item label="题号" label-width="70px">
+          <el-input v-model="editSubject.practiceindex"></el-input>
         </el-form-item>
-        <el-form-item label="题目类型" label-width="70px">
-          <el-select v-model="editSubject.type" placeholder="请选择题目类型">
+        <el-form-item label="习题类型" label-width="70px">
+          <el-select
+            v-model="editSubject.practicetype"
+            @change="currStationChangePaperEdit"
+          >
             <el-option
-              v-for="(item, index) in editSubject.option"
+              v-for="(item, index) in options"
               :key="index"
-              :label="item.label"
-              :value="item.data"
+              :label="item.name"
+              :value="item.value"
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="题目答案" style="height: 260px" label-width="70px">
-          <!-- <el-input
-            type="textarea"
-            :rows="4"
-            v-model="editSubject.answer"
-          ></el-input> -->
-          <Editor />
+        <el-form-item label="习题问题" label-width="70px">
+          <el-input v-model="editSubject.practicequestion"></el-input>
         </el-form-item>
-        <el-form-item label="从属课程" label-width="70px">
-          <el-cascader
-            v-model="editSubject.video"
-            :options="editSubject.options"
-            placeholder="请选择从属课程"
-            @change="editChange"
-          ></el-cascader>
+        <el-form-item label="习题答案" label-width="70px">
+          <el-input v-model="editSubject.practiceanswer"></el-input>
+          <span>例如：单选A；多选A,B</span>
+        </el-form-item>
+        <el-form-item label="习题回答" label-width="70px">
+          <el-input v-model="editSubject.practiceanother"></el-input>
+          <span>例如：A:选项a;B:选项b;C:选项c;</span>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="editDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="editDialogVisible = false"
-          >确 定</el-button
-        >
+        <el-button @click="cancalEdit">取 消</el-button>
+        <el-button type="primary" @click="submitEdit">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -210,278 +199,292 @@
 
 <script>
 import Pagination from "@/components/Pagination/index.vue";
-import Editor from "@/components/Editor/index.vue";
+import { curriculum } from "@/api/curriculum";
+
 export default {
-  name: "subjectManagement",
-  components: { Pagination, Editor },
+  name: "paperManagement",
+  components: { Pagination },
   data() {
     return {
       form: {
-        name: "",
-        type: "",
-        option: [
-          { label: "Python", data: "Python" },
-          { label: "C/C++", data: "C/C++" },
-          { label: "JS", data: "JS" },
-        ],
+        type: "课程章节试卷",
         video: "",
-        options: [
-          {
-            label: "Python",
-            value: "Python",
-            children: [
-              {
-                label: "xxx",
-                value: "xxx",
-              },
-              {
-                label: "xxx",
-                value: "xxx",
-              },
-            ],
-          },
-          {
-            label: "C/C++",
-            value: "C/C++",
-            children: [
-              {
-                label: "xxx",
-                value: "xxx",
-              },
-              {
-                label: "xxx",
-                value: "xxx",
-              },
-            ],
-          },
-          {
-            label: "JS",
-            value: "JS",
-            children: [
-              {
-                label: "xxx",
-                value: "xxx",
-              },
-              {
-                label: "xxx",
-                value: "xxx",
-              },
-            ],
-          },
-        ],
+        all: "",
+        paper: "",
       },
-      tableData: [
-        {
-          name: "看完本节课程，你理解的编程是什么呢？",
-          type: "练习",
-          video: "初识编程",
-          // videos: "xxx",
-          time: "2021-1-27 15:17:33",
-          answer: "言之有理即可",
-        },
+      option: [
+        { name: "课程章节试卷", value: "a" },
+        { name: "综合练习分类试卷", value: "b" },
       ],
-      activeData: [], // 盛放选中的题目
-      multiple: true, // 删除按钮状态
+      flag: 0, // 区分是视频练习还是分类练习
+      allOption: [], // 综合分类
+      videoOption: [], // 课程分类
+      paperOption: [], // 试卷父级分类
+      tableData: [],
+      tableDatas: [],
+      multiple: true,
       total: 1,
       page: 1,
       limit: 10,
       pageSizes: [10, 20, 30, 50],
-      addDialogVisible: false, // 新增
+      activeData: [], // 盛放选中的题目
+      addDialogVisible: false,
       addSubject: {
-        name: "",
-        type: "",
-        option: [
-          { label: "Python", data: "Python" },
-          { label: "C/C++", data: "C/C++" },
-          { label: "JS", data: "JS" },
-        ],
-        video: "",
-        options: [
-          {
-            label: "Python",
-            value: "Python",
-            children: [
-              {
-                label: "xxx",
-                value: "xxx",
-              },
-              {
-                label: "xxx",
-                value: "xxx",
-              },
-            ],
-          },
-          {
-            label: "C/C++",
-            value: "C/C++",
-            children: [
-              {
-                label: "xxx",
-                value: "xxx",
-              },
-              {
-                label: "xxx",
-                value: "xxx",
-              },
-            ],
-          },
-          {
-            label: "JS",
-            value: "JS",
-            children: [
-              {
-                label: "xxx",
-                value: "xxx",
-              },
-              {
-                label: "xxx",
-                value: "xxx",
-              },
-            ],
-          },
-        ],
-        answer: "",
+        paperid: undefined,
+        practicequestion: "",
+        practiceanswer: "",
+        practicetype: "",
+        practiceanother: "",
+        practiceindex: undefined,
       },
-      formDialogVisible: false, // 查看
-      formSubject: {
-        index: "1",
-        name: "",
-        type: "",
-        time: "",
-        answer: "",
-        video: "",
-      },
-      editDialogVisible: false, // 编辑
+      selects: undefined,
+      options: [
+        { name: "单选", value: 1 },
+        { name: "多选", value: 2 },
+        { name: "简答", value: 3 },
+      ],
+      editDialogVisible: false,
       editSubject: {
-        name: "",
-        type: "",
-        option: [
-          { label: "Python", data: "Python" },
-          { label: "C/C++", data: "C/C++" },
-          { label: "JS", data: "JS" },
-        ],
-        answer: "",
-        video: [],
-        options: [
-          {
-            label: "Python",
-            value: "Python",
-            children: [
-              {
-                label: "xxx",
-                value: "xxx",
-              },
-              {
-                label: "xxx",
-                value: "xxx",
-              },
-            ],
-          },
-          {
-            label: "C/C++",
-            value: "C/C++",
-            children: [
-              {
-                label: "xxx",
-                value: "xxx",
-              },
-              {
-                label: "xxx",
-                value: "xxx",
-              },
-            ],
-          },
-          {
-            label: "JS",
-            value: "JS",
-            children: [
-              {
-                label: "xxx",
-                value: "xxx",
-              },
-              {
-                label: "xxx",
-                value: "xxx",
-              },
-            ],
-          },
-        ],
+        paperid: undefined,
+        practicequestion: "",
+        practiceanswer: "",
+        practicetype: "",
+        practiceanother: "",
+        practiceindex: undefined,
       },
     };
   },
-  created() {},
+  created() {
+    this.courseage();
+  },
   methods: {
-    // 级联选择器
-    handleChange(value) {
-      console.log(value);
-    },
-    handleSelectionChange(val) {
-      this.activeData = val;
-      // 判断多选框是否选中，不选中删除按钮禁用
-      if (this.activeData.length !== 0) {
-        this.multiple = false;
+    // 监听下拉框值的改变
+    currStationChange(val) {
+      if (val == "a") {
+        // 视频练习
+        this.flag = 0;
+        this.tableData = [];
+        this.courseage();
       } else {
-        this.multiple = true;
+        this.flag = 1;
+        this.tableData = [];
+        this.allCourse();
       }
     },
-    // 新增课程
-    addSubjects() {
+    currStationChangeVideo(val) {
+      this.form.video = val;
+      this.tableData = [];
+      this.videoCourse(val);
+    },
+    currStationChangeAll(val) {
+      this.form.all = val;
+      this.tableData = [];
+      this.allDirectory(val);
+    },
+    currStationChangePaper(val) {
+      this.form.paper = val;
+      this.tableData = [];
+      this.getPaperOne(val);
+    },
+    // 获取课程
+    courseage() {
+      curriculum.courseage().then((res) => {
+        if (res.data.status === "0") {
+          this.videoOption = res.data.data;
+          this.form.video = res.data.data[0].courseid;
+          this.videoCourse(this.form.video);
+        }
+      });
+    },
+    // 获取课程章节
+    videoCourse(data) {
+      curriculum.videoCourse(data).then((res) => {
+        if (res.data.status === "0") {
+          this.paperOption = res.data.data;
+          for (let i = 0; i < this.paperOption.length; i++) {
+            this.$set(
+              this.paperOption[i],
+              "name",
+              `第${this.paperOption[i].videochapter}节 ${this.paperOption[i].videotitle}`
+            );
+            this.$set(
+              this.paperOption[i],
+              "value",
+              `${this.paperOption[i].videoid};第${this.paperOption[i].videochapter}节 ${this.paperOption[i].videotitle}`
+            );
+          }
+          this.form.paper = this.paperOption[0].paperid;
+          this.getPaperOne(this.form.paper);
+        }
+      });
+    },
+    // 获取分类
+    allCourse() {
+      curriculum.sort().then((res) => {
+        if (res.data.status === "0") {
+          this.form.all = res.data.data[0].papersort;
+          this.allOption = res.data.data;
+          this.allDirectory(res.data.data[0].papersort);
+        }
+      });
+    },
+    // 获取类别下的目录
+    allDirectory(data) {
+      curriculum.directory(data).then((res) => {
+        if (res.data.status === "0") {
+          this.paperOption = res.data.data;
+          this.form.paper = res.data.data[0].paperid;
+          this.getPaperOne(this.form.paper);
+        }
+      });
+    },
+    // 获取习题
+    getPaperOne(data) {
+      curriculum.paperOne(data).then((res) => {
+        if (res.data.status === "0") {
+          this.tableData = res.data.data;
+        }
+      });
+    },
+    // 创建试题
+    addPapers() {
       this.addDialogVisible = true;
+      this.addSubject.paperid = this.form.paper;
+      this.addSubject.practicequestion = "";
+      this.addSubject.practiceanswer = "";
+      this.addSubject.practicetype = "";
+      this.addSubject.practiceanother = "";
+      this.addSubject.practiceindex = undefined;
     },
-    addChange(value) {
-      console.log(value);
+    currStationChangePaperAdd(val) {},
+    currStationChangePaperEdit(val) {},
+    // 取消新增
+    cancalAdd() {
+      this.addDialogVisible = false;
+      this.addSubject.paperid = this.form.paper;
+      this.addSubject.practicequestion = "";
+      this.addSubject.practiceanswer = "";
+      this.addSubject.practicetype = "";
+      this.addSubject.practiceanother = "";
+      this.addSubject.practiceindex = undefined;
     },
-    // 课程详情
-    formSubjects(data) {
-      this.formDialogVisible = true;
-      this.formSubject.name = data.name;
-      this.formSubject.type = data.type;
-      this.formSubject.time = data.time;
-      this.formSubject.video = data.video;
-      this.formSubject.answer = data.answer;
+    // 新增成功
+    submitAdd() {
+      this.addDialogVisible = false;
+      this.addSubject.paperid = this.form.paper;
+      curriculum.createPractice(this.addSubject).then((res) => {
+        if (res.data.status == "0") {
+          this.$message("新增习题成功");
+          this.getPaperOne(this.form.paper);
+        }
+      });
     },
-    // 编辑课程
-    editSubjects(data) {
+    // 删除习题
+    deletePratice(data) {
+      curriculum.deletePratice(data.practiceid).then((res) => {
+        if (res.data.status == "0") {
+          this.$message("删除习题成功");
+          this.getPaperOne(this.form.paper);
+        }
+      });
+    },
+    // 编辑
+    editVideos(data) {
       this.editDialogVisible = true;
-      this.editSubject.name = data.name;
-      this.editSubject.type = data.type;
-      this.editSubject.video.push(data.video);
-      this.editSubject.video.push(data.videos);
-      console.log(this.editSubject.video);
-      this.editSubject.answer = data.answer;
+      this.editSubject.practicequestion = data.practicequestion;
+      this.editSubject.practiceanswer = data.practiceanswer;
+      this.editSubject.paperid = data.paperid;
+      this.editSubject.practicetype = data.practicetype;
+      this.editSubject.practiceanother = data.practiceanother;
+      this.editSubject.practiceindex = data.practiceindex;
+      this.editSubject.practiceid = data.practiceid;
     },
-    editChange(value) {
-      console.log(value);
+    // 取消
+    cancalEdit() {
+      this.editDialogVisible = false;
+      this.editSubject.practicequestion = "";
+      this.editSubject.practiceanswer = "";
+      this.editSubject.paperid = "";
+      this.editSubject.practicetype = "";
+      this.editSubject.practiceanother = "";
+      this.editSubject.practiceindex = "";
+      this.editSubject.practiceid = "";
+    },
+    // 编辑成功
+    submitEdit() {
+      this.editDialogVisible = false;
+      curriculum.updatePratice(this.editSubject).then((res) => {
+        console.log(res);
+        if (res.data.status == "0") {
+          this.$message("编辑习题成功");
+          this.getPaperOne(this.form.paper);
+        }
+      });
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.subject {
+.comment {
   background: #fff;
   margin: 10px;
   padding: 20px;
-  .subject-header {
+  .comment-header {
     margin: 20px 0 10px 0;
     .el-form {
       display: flex;
-      justify-content: space-between;
     }
+  }
+  .course-img {
+    width: 60px;
+    height: 40px;
   }
   .el-table {
     margin-top: 10px;
+  }
+  .upload-img {
+    img {
+      width: 100px;
+    }
   }
   .el-dialog {
     .el-select {
       width: 100%;
     }
-    .el-cascader {
-      width: 100%;
-    }
     .el-date-editor.el-input,
     .el-date-editor.el-input__inner {
       width: 100%;
+    }
+    .avatar-uploader .el-upload {
+      border: 1px dashed #d9d9d9;
+      border-radius: 6px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .avatar-uploader .el-upload:hover {
+      border-color: #409eff;
+    }
+    .avatar-uploader-icon {
+      font-size: 28px;
+      color: #8c939d;
+      width: 50px;
+      height: 50px;
+      line-height: 50px;
+      text-align: center;
+    }
+    .avatar {
+      width: 178px;
+      height: 178px;
+      display: block;
+    }
+    .comment-avatar {
+      width: 400px;
+      height: 200px;
+    }
+    .comment-btn {
+      margin-bottom: 10px;
     }
   }
 }

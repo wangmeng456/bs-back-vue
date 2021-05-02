@@ -104,10 +104,10 @@ export default {
         if (valid) {
           this.loading = true;
           login
-            .login(this.loginForm.username, hex_md5(this.loginForm.password))
+            .login(this.loginForm.username, this.loginForm.password)
             .then((res) => {
               if (res.data.status == 0) {
-                this.loginForm.id = res.data.data.suid;
+                this.loginForm.id = res.data.data.aid;
                 this.$message("登录成功")
                 this.$router.push({ path: "/index/index" });
                 setStore("user", JSON.stringify(this.loginForm)); // 信息存储到本地

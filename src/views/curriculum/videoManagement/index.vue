@@ -1,61 +1,57 @@
 <!--
  * @Author: wangmeng
- * @Description: 视频管理页面
+ * @Description: 课程管理页面
 -->
 <template>
-  <div class="video">
+  <div class="videos">
     <div class="video-header">
       <el-form :model="form">
-        <el-form-item label="课程名称" label-width="70px">
-          <el-input v-model="form.name" placeholder="请输入课程名称"></el-input>
-        </el-form-item>
-        <!-- <el-form-item label="课程目录" label-width="70px">
-          <el-select v-model="form.type" placeholder="请选择课程目录">
+        <el-form-item label="课程目录" label-width="70px">
+          <el-select v-model="form.type" placeholder="请选择课程目录" @change="currStationChange">
             <el-option
-              v-for="(item, index) in form.option"
+              v-for="(item, index) in courseData"
               :key="index"
-              :label="item.label"
-              :value="item.data"
+              :label="item.coursetitle"
+              :value="item.courseid"
             ></el-option>
           </el-select>
-        </el-form-item> -->
-        <el-form-item>
-          <el-button type="primary"
-            ><i class="el-icon-search"></i> 查询</el-button
-          >
-          <el-button><i class="el-icon-refresh"> 重置</i></el-button>
         </el-form-item>
       </el-form>
     </div>
     <div class="video-container">
       <el-button type="primary" plain @click="addVideos"
-        ><i class="el-icon-plus"></i> 新建课程</el-button
+        ><i class="el-icon-plus"></i> 新建课程章节</el-button
       >
-      <el-button type="danger" plain :disabled="multiple"
+      <!-- <el-button type="danger" plain :disabled="multiple"
         ><i class="el-icon-delete"></i> 批量删除</el-button
-      >
+      > -->
       <el-table
         :data="tableData"
         max-height="500"
         style="max-height: 500px; min-height: 200px; width: 100%"
         @selection-change="handleSelectionChange"
       >
-        <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column label="课程名称" prop="name" show-overflow-tooltip>
+        <!-- <el-table-column type="selection" width="55"></el-table-column> -->
+        <el-table-column label="课程章节名称" show-overflow-tooltip>
           <template slot-scope="scope">
-            <el-button type="text" @click="formVideos(scope.row)">{{
-              scope.row.name
-            }}</el-button>
+            第{{
+              scope.row.videochapter
+            }}节 {{scope.row.videotitle}}
+          </template>
+        </el-table-column>
+        <el-table-column label="课程章节视频" show-overflow-tooltip>
+          <template slot-scope="scope">
+            <Video :img="scope.row.videoaddress" />
           </template>
         </el-table-column>
         <el-table-column
-          label="课程目录"
-          prop="type"
+          label="课程章节简介"
+          prop="videocontext"
           show-overflow-tooltip
         ></el-table-column>
         <el-table-column
           label="上传时间"
-          prop="time"
+          prop="videodate"
           show-overflow-tooltip
         ></el-table-column>
         <el-table-column label="操作" width="120">
@@ -63,170 +59,100 @@
             <el-button type="text" @click="editVideos(scope.row)"
               >编辑</el-button
             >
-            <el-button type="text">删除</el-button>
+            <el-button type="text" @click="deleteVideo(scope.row.videoid)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
-      <Pagination
+      <!-- <Pagination
         v-show="tableData.length > 0"
         :total="total"
         :page="page"
         :limit="limit"
         :pageSizes="pageSizes"
-      />
+      /> -->
     </div>
     <!-- 新增课程 弹框 -->
-    <el-dialog title="新增课程" :visible.sync="addDialogVisible">
-      <el-form :model="addVideo">
-        <el-form-item label="课程名称" label-width="70px">
-          <el-input
-            v-model="addVideo.name"
-            placeholder="请输入课程名称"
-          ></el-input>
+    <el-dialog :visible.sync="addDialogVisible">
+      <el-form :model="addSubject">
+        <el-form-item label="课程章节" label-width="100px">
+          <el-input v-model="addSubject.videochapter"></el-input>
         </el-form-item>
-        <el-form-item label="课程目录" label-width="70px">
-          <el-input
-            v-model="addVideo.type"
-            placeholder="请输入课程目录"
-          ></el-input>
-          <!-- <el-select v-model="addVideo.type" placeholder="请选择课程目录">
-            <el-option
-              v-for="(item, index) in addVideo.option"
-              :key="index"
-              :label="item.label"
-              :value="item.data"
-            ></el-option>
-          </el-select> -->
+        <el-form-item label="课程章节标题" label-width="100px">
+          <el-input v-model="addSubject.videotitle"></el-input>
         </el-form-item>
-        <el-form-item label="上传视频" label-width="70px">
-          <el-upload
-            class="avatar-uploader el-upload--text"
-            :action="addVideo.uploadUrl"
-            :show-file-list="false"
-            accept=".mp4"
-            :on-success="handleVideoSuccess"
-            :before-upload="beforeUploadVideo"
-            :on-progress="uploadVideoProcess"
-          >
-            <video
-              v-if="addVideo.showVideoPath != '' && !addVideo.videoFlag"
-              :src="addVideo.showVideoPath"
-              class="avatar video-avatar"
-              controls="controls"
+        <el-form-item label="课程章节视频" label-width="100px">
+          <div>
+            <el-upload
+              class="avatar-uploader"
+              action="#"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload"
             >
-              您的浏览器不支持视频播放
-            </video>
-            <i
-              v-else-if="addVideo.showVideoPath == '' && !addVideo.videoFlag"
-              class="el-icon-plus avatar-uploader-icon"
-            ></i>
-            <el-progress
-              v-if="addVideo.videoFlag == true"
-              type="circle"
-              :percentage="addVideo.videoUploadPercent"
-              style="margin-top: 30px"
-            ></el-progress>
-            <el-button
-              class="video-btn"
-              slot="trigger"
-              size="small"
-              v-if="addVideo.isShowUploadVideo"
-              type="primary"
-              >选取文件</el-button
-            >
-          </el-upload>
-          <p
-            v-if="
-              (addVideo.showVideoPath == '' && !addVideo.videoFlag) ||
-              addVideo.isShowUploadVideo
-            "
-            class="text"
-          >
-            请保证视频格式正确，且不超过1GB
-          </p>
+              <Video
+                v-if="addSubject.videoaddress"
+                :img="
+                  addSubject.videoaddress
+                "
+              />
+              <br/>
+              <i class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+          </div>
+        </el-form-item>
+        <el-form-item label="课程章节简介" label-width="100px">
+          <el-input
+            type="textarea"
+            :rows="4"
+            v-model="addSubject.videocontext"
+          ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="addDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addDialogVisible = false"
-          >确 定</el-button
-        >
-      </div>
-    </el-dialog>
-    <!-- 查看课程详情 弹框 -->
-    <el-dialog :visible.sync="formDialogVisible">
-      <el-form :model="formVideo">
-        <el-form-item label="课程名称" label-width="70px">
-          <el-input v-model="formVideo.name" disabled></el-input>
-        </el-form-item>
-        <el-form-item label="课程目录" label-width="70px">
-          <el-input v-model="formVideo.type" disabled></el-input>
-        </el-form-item>
-        <el-form-item label="上传时间" label-width="70px">
-          <el-date-picker v-model="formVideo.time" type="datetime" disabled>
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="视频课程" label-width="70px">
-          <Video :img="formVideo.img" />
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="formDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="formDialogVisible = false"
-          >确 定</el-button
-        >
+        <el-button @click="cancalAdd">取 消</el-button>
+        <el-button type="primary" @click="submitAdd">确 定</el-button>
       </div>
     </el-dialog>
     <!-- 编辑课程 弹框 -->
     <el-dialog :visible.sync="editDialogVisible">
-      <el-form :model="editVideo">
-        <el-form-item label="课程名称" label-width="70px">
-          <el-input v-model="editVideo.name"></el-input>
+      <el-form :model="editSubject">
+        <el-form-item label="课程章节" label-width="100px">
+          <el-input v-model="editSubject.videochapter"></el-input>
         </el-form-item>
-        <el-form-item label="课程目录" label-width="70px">
-          <el-input v-model="editVideo.name"></el-input>
+        <el-form-item label="课程章节标题" label-width="100px">
+          <el-input v-model="editSubject.videotitle"></el-input>
         </el-form-item>
-        <el-form-item label="视频课程" label-width="70px">
-          <el-upload
-            class="avatar-uploader el-upload--text"
-            :action="editVideo.uploadUrl"
-            :show-file-list="false"
-            accept=".mp4"
-            :on-success="editHandleVideoSuccess"
-            :before-upload="editBeforeUploadVideo"
-            :on-progress="editUploadVideoProcess"
-          >
-            <video
-              v-if="editVideo.showVideoPath != '' && !editVideo.videoFlag"
-              :src="editVideo.showVideoPath"
-              class="avatar video-avatar"
-              controls="controls"
+        <el-form-item label="课程章节视频" label-width="100px">
+          <div>
+            <el-upload
+              class="avatar-uploader"
+              action="#"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload"
             >
-              您的浏览器不支持视频播放
-            </video>
-            <el-progress
-              v-if="editVideo.videoFlag == true"
-              type="circle"
-              :percentage="editVideo.videoUploadPercent"
-              style="margin-top: 30px"
-            ></el-progress>
-            <el-button
-              v-if="!editVideo.videoFlag"
-              class="video-btn"
-              slot="trigger"
-              size="small"
-              type="primary"
-              plain
-              >选取文件</el-button
-            >
-          </el-upload>
+              <Video
+                v-if="editSubject.videoaddress"
+                :img="
+                  editSubject.videoaddress
+                "
+              />
+              <br/>
+              <i class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+          </div>
+        </el-form-item>
+        <el-form-item label="课程章节简介" label-width="100px">
+          <el-input
+            type="textarea"
+            :rows="4"
+            v-model="editSubject.videocontext"
+          ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="editDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="editDialogVisible = false"
-          >确 定</el-button
-        >
+        <el-button @click="cancalEdit">取 消</el-button>
+        <el-button type="primary" @click="submitEdit">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -235,23 +161,19 @@
 <script>
 import Pagination from "@/components/Pagination/index.vue";
 import Video from "@/components/Video/index.vue";
+import { curriculum } from "@/api/curriculum";
 export default {
   name: "videoManagement",
   components: { Pagination, Video },
   data() {
     return {
+      courseid: undefined,
       form: {
         name: "",
         type: "",
       },
-      tableData: [
-        {
-          name: "初识编程",
-          type: "初识编程",
-          time: "2021-1-27 15:17:33",
-          img: require("@/assets/mp4/shipin.mp4"),
-        },
-      ],
+      courseData: [],
+      tableData: [],
       activeData: [], // 盛放选中的视频
       multiple: true, // 删除按钮状态
       total: 1,
@@ -259,36 +181,53 @@ export default {
       limit: 10,
       pageSizes: [10, 20, 30, 50],
       addDialogVisible: false, // 新增
-      addVideo: {
-        name: "",
-        type: "",
-        uploadUrl: "", // 要上传视频到后台的地址
-        videoFlag: false, // 是否显示进度条
-        videoUploadPercent: "", // 进度条的进度
-        isShowUploadVideo: false, // 显示上传按钮
-        showVideoPath: "", // video 路径
+      addSubject: {
+        videotitle: "",
+        videocontext: "",
+        videoaddress: "",
+        courseid: "",
+        videochapter: ""
       },
-      formDialogVisible: false, // 查看
-      formVideo: {
-        name: "",
-        type: "",
-        time: "",
-        img: "",
+      editSubject: {
+        videotitle: "",
+        videocontext: "",
+        videoaddress: "",
+        courseid: "",
+        videochapter: "",
+        videoid: ""
       },
       editDialogVisible: false, // 编辑
-      editVideo: {
-        name: "",
-        type: "",
-        uploadUrl: "", // 要上传视频到后台的地址
-        videoFlag: false, // 是否显示进度条
-        videoUploadPercent: "", // 进度条的进度
-        isShowUploadVideo: false, // 显示上传按钮
-        showVideoPath: "", // video 路径
-      },
     };
   },
-  created() {},
+  created() {
+    this.courseage();
+  },
   methods: {
+    // 获取课程
+    courseage() {
+      curriculum.courseage().then((res) => {
+        if (res.data.status === "0") {
+          this.courseData = res.data.data;
+          this.form.type = res.data.data[0].coursetitle;
+          this.courseid = res.data.data[0].courseid;
+          this.getVideo(this.courseid);
+        }
+      });
+    },
+    // 获取课程章节
+    getVideo(data) {
+      curriculum.videoCourse(data)
+      .then((res) => {
+        if(res.data.status === '0') {
+          this.tableData = res.data.data;
+        }
+      })
+    },
+    // 监听下拉框值的改变
+    currStationChange(val) {
+      this.courseid = val;
+      this.getVideo(val);
+    },
     handleSelectionChange(val) {
       this.activeData = val;
       // 判断多选框是否选中，不选中删除按钮禁用
@@ -302,82 +241,98 @@ export default {
     addVideos() {
       this.addDialogVisible = true;
     },
-    //上传前回调
-    beforeUploadVideo(file) {
-      const isLt200M = file.size / 1024 / 1024 < 1024;
-      if (["video/mp4"].indexOf(file.type) == -1) {
-        //'video/ogg', 'video/flv', 'video/avi', 'video/wmv', 'video/rmvb'
-        this.$message.error("请上传正确的视频格式");
-        return false;
+    // 上传视频
+    handleAvatarSuccess(res, file) {
+      if (this.editDialogVisible && !this.addDialogVisible) {
+        this.editSubject.videoaddress = URL.createObjectURL(file.raw);
+      } else if (!this.editDialogVisible && this.addDialogVisible) {
+        this.addSubject.videoaddress = URL.createObjectURL(file.raw);
       }
-      if (!isLt200M) {
-        this.$message.error("上传视频大小不能超过1GB哦!");
-        return false;
-      }
-      this.addVideo.isShowUploadVideo = false;
+      console.log(this.editSubject.videoaddress)
     },
-    //进度条
-    uploadVideoProcess(event, file, fileList) {
-      this.addVideo.videoFlag = true;
-      this.addVideo.videoUploadPercent = file.percentage.toFixed(0) * 1;
+    beforeAvatarUpload(file) {
+      const formData = new FormData();
+      formData.append("image", file);
+      curriculum.uploadVideo(formData).then((res) => {
+        if (res.data.status === "0") {
+          if (this.editDialogVisible && !this.addDialogVisible) {
+            this.editSubject.videoaddress = res.data.data;
+          } else if (!this.editDialogVisible && this.addDialogVisible) {
+            this.addSubject.videoaddress = res.data.data;
+          }
+          console.log(this.editSubject.videoaddress)
+        }
+      });
+      return false;
     },
-    //上传成功回调
-    handleVideoSuccess(res, file) {
-      this.addVideo.isShowUploadVideo = true;
-      this.addVideo.videoFlag = false;
-      this.addVideo.videoUploadPercent = 0;
-      //   if (res.errorCode == "00") {
-      //     this.global.company.showVideoPath = res.sprbody.urlAddress;
-      //     // this.videoForm.showVideoPath = res.data.uploadUrl;
-      //   } else {
-      //     this.$message.error("视频上传失败，请重新上传！");
-      //   }
+    // 取消新增
+    cancalAdd() {
+      this.addDialogVisible = false;
+      this.addSubject.videotitle = "";
+      this.addSubject.videocontext = "";
+      this.addSubject.videoaddress = "";
+      this.addSubject.courseid = this.courseid;
+      this.addSubject.videochapter = "";
     },
-    // 课程详情
-    formVideos(data) {
-      this.formDialogVisible = true;
-      this.formVideo.name = data.name;
-      this.formVideo.type = data.type;
-      this.formVideo.time = data.time;
-      this.formVideo.img = data.img;
+    // 新增成功
+    submitAdd() {
+      this.addDialogVisible = false;
+      this.addSubject.courseid = this.courseid;
+      curriculum.createVideo(this.addSubject)
+      .then((res) => {
+        if(res.data.status == '0') {
+          this.$message('新增课程章节成功')
+          this.getVideo(this.courseid);
+        }
+      })
     },
-    // 编辑课程
+    // 删除视频
+    deleteVideo(data) {
+      curriculum.deleteVideo(data).then((res) => {
+        if(res.data.data == 'success') {
+          this.$message('删除成功');
+          this.getVideo(this.courseid);
+        }
+      })
+    },
+    // 编辑视频
     editVideos(data) {
       this.editDialogVisible = true;
-      this.editVideo.name = data.name;
-      this.editVideo.type = data.type;
-      this.editVideo.showVideoPath = data.img;
+      this.editSubject.videotitle = data.videotitle;
+      this.editSubject.videocontext = data.videocontext;
+      this.editSubject.videoaddress = data.videoaddress;
+      this.editSubject.courseid = this.courseid;
+      this.editSubject.videochapter = data.videochapter;
+      this.editSubject.videoid = data.videoid;
     },
-    //编辑-上传前回调
-    editBeforeUploadVideo(file) {
-      const isLt200M = file.size / 1024 / 1024 < 1024;
-      if (["video/mp4"].indexOf(file.type) == -1) {
-        this.$message.error("请上传正确的视频格式");
-        return false;
-      }
-      if (!isLt200M) {
-        this.$message.error("上传视频大小不能超过1GB哦!");
-        return false;
-      }
-      this.editVideo.isShowUploadVideo = false;
+    // 取消编辑
+    cancalEdit() {
+      this.editDialogVisible = false;
+      this.editSubject.videotitle = "";
+      this.editSubject.videocontext = "";
+      this.editSubject.videoaddress = "";
+      this.editSubject.courseid = this.courseid;
+      this.editSubject.videochapter = "";
+      this.editSubject.videoid = "";
     },
-    //编辑-进度条
-    editUploadVideoProcess(event, file, fileList) {
-      this.editVideo.videoFlag = true;
-      this.editVideo.videoUploadPercent = file.percentage.toFixed(0) * 1;
-    },
-    //编辑-上传成功回调
-    editHandleVideoSuccess(res, file) {
-      this.editVideo.isShowUploadVideo = true;
-      this.editVideo.videoFlag = false;
-      this.editVideo.videoUploadPercent = 0;
+    // 编辑成功
+    submitEdit() {
+      this.editDialogVisible = false;
+      console.log(this.editSubject)
+      curriculum.createVideo(this.editSubject)
+      .then((res) => {
+        if(res.data.status == '0') {
+          this.$message('编辑课程章节成功')
+          this.getVideo(this.courseid);
+        }
+      })
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.video {
+.videos {
   background: #fff;
   margin: 10px;
   padding: 20px;
@@ -392,23 +347,6 @@ export default {
     margin-top: 10px;
   }
   .el-dialog {
-    .el-select {
-      width: 100%;
-    }
-    .el-date-editor.el-input,
-    .el-date-editor.el-input__inner {
-      width: 100%;
-    }
-    .avatar-uploader .el-upload {
-      border: 1px dashed #d9d9d9;
-      border-radius: 6px;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-    }
-    .avatar-uploader .el-upload:hover {
-      border-color: #409eff;
-    }
     .avatar-uploader-icon {
       font-size: 28px;
       color: #8c939d;
@@ -417,17 +355,12 @@ export default {
       line-height: 50px;
       text-align: center;
     }
-    .avatar {
-      width: 178px;
-      height: 178px;
-      display: block;
-    }
-    .video-avatar {
+    .video {
       width: 400px;
       height: 200px;
     }
-    .video-btn {
-      margin-bottom: 10px;
+    .vjs-big-play-button {
+      display: none;
     }
   }
 }

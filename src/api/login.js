@@ -2,13 +2,13 @@ import request from '@/utils/request'
 
 export const login = {
   // 登录
-  login(stuemail,stupwd) {
+  login(aname,apwd) {
     let data = {
-      stuemail,
-      stupwd
+      aname,
+      apwd
     }
     return request({
-      url: '/login',
+      url: '/users/administrator/login',
       method: 'post',
       data: data
     })

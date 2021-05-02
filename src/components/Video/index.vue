@@ -26,7 +26,7 @@ export default {
         fluid: true, // 当true时，Video.js player将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
         sources: [
           {
-            src: this.img, // 路径
+            src: 'http://www.melonseeds.top:8081/video/'+this.img, // 路径
             type: "video/mp4", // 类型
           },
         ],
@@ -40,9 +40,26 @@ export default {
       },
     };
   },
+  watch: {
+    img: {
+      handler(newVal, oldVal) {
+        this.img = newVal;
+        console.log(newVal, oldVal, this.img);
+      },
+      deep: true
+    }
+  },
   methods: {},
 };
 </script>
 
 <style lang="scss" scoped>
+.video-js .vjs-big-play-button {
+  width: 72px;
+   height: 72px;
+   border-radius: 100%;
+   z-index: 100;
+   background-color: #ffffff;
+   border: solid 1px #979797;
+}
 </style>

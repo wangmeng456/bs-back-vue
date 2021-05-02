@@ -95,12 +95,45 @@ export const constantRoutes = [
     },
     children: [
       {
+        name: "课程管理",
+        path: "courseManagement",
+        component: () => import('@/views/curriculum/courseManagement'),
+        meta: {
+          title: "课程管理",
+          icon: "campus-space-manage"
+        }
+      },
+      {
         name: "视频管理",
         path: "videoManagement",
         component: () => import('@/views/curriculum/videoManagement'),
         meta: {
           title: "视频管理",
           icon: "campus-space-manage"
+        }
+      }
+    ]
+  },
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~课程管理 end ~~~~~~~~~~~~~~~~~~~~~~~~~
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~习题管理 start ~~~~~~~~~~~~~~~~~~~~~~~~~
+  {
+    name: "习题管理",
+    path: "/curriculums",
+    redirect: "noRedirect",
+    component: Layout,
+    alwaysShow: true,
+    meta: {
+      title: "习题管理",
+      icon: "dict-space"
+    },
+    children: [
+      {
+        name: "试卷管理",
+        path: "paperManagement",
+        component: () => import('@/views/curriculum/paperManagement'),
+        meta: {
+          title: "试卷管理",
+          icon: "student-company-manage"
         }
       },
       {
@@ -112,9 +145,18 @@ export const constantRoutes = [
           icon: "student-company-manage"
         }
       },
+      {
+        name: "图形化练习管理",
+        path: "codeManagement",
+        component: () => import('@/views/curriculum/codeManagement'),
+        meta: {
+          title: "图形化练习管理",
+          icon: "student-company-manage"
+        }
+      },
     ]
   },
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~课程管理 end ~~~~~~~~~~~~~~~~~~~~~~~~~
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~习题管理 end ~~~~~~~~~~~~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~系统管理 start ~~~~~~~~~~~~~~~~~~~~~~~~~
   {
     name: "系统管理",

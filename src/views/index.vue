@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <el-row :gutter="10">
+    <!-- <el-row :gutter="10">
       <el-col :span="12">
         <div class="box">
           <div class="box-title">学生分布</div>
@@ -27,7 +27,8 @@
           <div class="box-container" id="cloudId"></div>
         </div>
       </el-col>
-    </el-row>
+    </el-row> -->
+    少儿编程教育后台管理系统
   </div>
 </template>
 
@@ -43,10 +44,10 @@ export default {
   },
   created() {},
   mounted() {
-    this.chartMap();
-    this.chartLine();
-    this.chartBar();
-    this.chartCloud();
+    // this.chartMap();
+    // this.chartLine();
+    // this.chartBar();
+    // this.chartCloud();
   },
   methods: {
     // 地图
@@ -1561,7 +1562,10 @@ export default {
 
 <style lang="scss" scoped>
 .home {
-  padding: 10px 10px 0 10px;
+  font-size: 40px;
+  text-align: center;
+
+  padding: 200px 10px 0 10px;
   .el-row {
     margin-bottom: 10px;
   }

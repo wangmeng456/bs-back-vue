@@ -29,8 +29,10 @@ const testList = [
   "/management/roleManagement",
   "/management/accountManagement",
   "/curriculum/videoManagement",
-  "/curriculum/subjectManagement",
-  "/curriculum/commentManagement",
+  "/curriculums/subjectManagement",
+  "/curriculum/courseManagement",
+  "/curriculums/paperManagement",
+  "/curriculums/codeManagement"
 ];
 
 let user = JSON.parse(getStore("user"));
